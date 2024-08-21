@@ -29,12 +29,23 @@
 			<optional>true</optional>
 		</dependency>
 
+		<dependency>
+			<groupId>com.oanda.v20</groupId>
+			<artifactId>v20</artifactId>
+			<version>3.0.25</version>
+		</dependency>
 
-			<dependency>
-				<groupId>com.oanda.v20</groupId>
-				<artifactId>v20</artifactId>
-				<version>3.0.25</version>
-			</dependency>
+		<!-- Jackson JSON Processor -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+		</dependency>
+
+		<!-- Apache HttpClient (optional) -->
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

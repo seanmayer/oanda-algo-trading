@@ -1,5 +1,6 @@
 package com.demo.oanda.algotrading.service;
 
+import com.demo.oanda.algotrading.config.OandaConfig;
 import com.oanda.v20.Context;
 import com.oanda.v20.ExecuteException;
 import com.oanda.v20.RequestException;
@@ -16,11 +17,13 @@ import java.util.List;
 public class OandaMarketDataService {
 
     private final Context context;
+    private final String token;
 
-    public OandaMarketDataService() {
+    public OandaMarketDataService(OandaConfig oandaConfig) {
         String url = "https://api-fxpractice.oanda.com";
-        String token = "YOUR_OANDA_ACCESS_TOKEN";
+        this.token = oandaConfig.getApiKey();
         context = new Context(url, token);
+        context.setHeader("Authorization", "Bearer " + token);
     }
 
     public List<Candlestick> getMarketData(String instrument) throws ExecuteException, RequestException {

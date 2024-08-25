@@ -12,6 +12,5 @@ public class AlgotradingApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(AlgotradingApplication.class, args);
 	}
-
-
+	
 }

@@ -7,10 +7,12 @@ import com.oanda.v20.RequestException;
 import com.oanda.v20.account.Account;
 import com.oanda.v20.account.AccountGetResponse;
 import com.oanda.v20.account.AccountID;
+import com.oanda.v20.account.AccountProperties;
+import com.oanda.v20.account.AccountListResponse;
 import com.oanda.v20.instrument.Candlestick;
+import com.oanda.v20.instrument.CandlestickGranularity;
 import com.oanda.v20.instrument.InstrumentCandlesRequest;
 import com.oanda.v20.instrument.InstrumentCandlesResponse;
-import com.oanda.v20.instrument.CandlestickGranularity;
 import com.oanda.v20.primitives.InstrumentName;
 import org.springframework.stereotype.Service;
 
@@ -41,6 +43,17 @@ public class OandaMarketDataService {
             return response.getCandles();
         } catch (RequestException e) {
             logger.severe("RequestException occurred: " + e.getMessage());
+            throw e;
+        }
+    }
+
+    public List<AccountProperties> getAccounts() throws ExecuteException, RequestException {
+        try {
+            AccountListResponse response = context.account.list();
+            logger.info("Received accounts response from Oanda API: " + response);
+            return response.getAccounts();
+        } catch (RequestException e) {
+            logger.severe("RequestException occurred while fetching accounts: " + e.getMessage());
             throw e;
         }
     }

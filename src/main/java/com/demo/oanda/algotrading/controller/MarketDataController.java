@@ -4,6 +4,7 @@ import com.demo.oanda.algotrading.service.OandaMarketDataService;
 import com.oanda.v20.ExecuteException;
 import com.oanda.v20.RequestException;
 import com.oanda.v20.account.Account;
+import com.oanda.v20.account.AccountProperties;
 import com.oanda.v20.instrument.Candlestick;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,5 +29,10 @@ public class MarketDataController {
     @GetMapping("/account/{accountId}")
     public Account getAccountDetails(@PathVariable String accountId) throws ExecuteException, RequestException {
         return marketDataService.getAccountDetails(accountId);
+    }
+
+    @GetMapping("/accounts")
+    public List<AccountProperties> getAccounts() throws ExecuteException, RequestException {
+        return marketDataService.getAccounts();
     }
 }

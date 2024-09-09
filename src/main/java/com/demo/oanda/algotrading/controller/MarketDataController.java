@@ -6,6 +6,7 @@ import com.oanda.v20.ExecuteException;
 import com.oanda.v20.RequestException;
 import com.oanda.v20.account.Account;
 import com.oanda.v20.account.AccountProperties;
+import com.oanda.v20.account.AccountSummary;
 import com.oanda.v20.instrument.Candlestick;
 import com.oanda.v20.primitives.Instrument;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -44,4 +45,10 @@ public class MarketDataController {
     public List<Instrument> getAccountInstruments(@PathVariable String accountId) throws ExecuteException, RequestException {
         return accountService.getAccountInstruments(accountId);
     }
+
+    @GetMapping("/account/{accountId}/summary")
+    public AccountSummary getAccountSummary(@PathVariable String accountId) throws ExecuteException, RequestException {
+        return accountService.getAccountSummary(accountId);
+    }
+
 }

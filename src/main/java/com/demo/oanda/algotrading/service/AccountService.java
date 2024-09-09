@@ -3,12 +3,7 @@ package com.demo.oanda.algotrading.service;
 import com.oanda.v20.Context;
 import com.oanda.v20.ExecuteException;
 import com.oanda.v20.RequestException;
-import com.oanda.v20.account.Account;
-import com.oanda.v20.account.AccountGetResponse;
-import com.oanda.v20.account.AccountID;
-import com.oanda.v20.account.AccountInstrumentsResponse;
-import com.oanda.v20.account.AccountListResponse;
-import com.oanda.v20.account.AccountProperties;
+import com.oanda.v20.account.*;
 import com.oanda.v20.primitives.Instrument;
 import org.springframework.stereotype.Service;
 
@@ -43,6 +38,17 @@ public class AccountService {
             return accountResponse.getAccount();
         } catch (RequestException e) {
             logger.severe("RequestException occurred while fetching account details: " + e.getMessage());
+            throw e;
+        }
+    }
+
+    public AccountSummary getAccountSummary(String accountId) throws ExecuteException, RequestException {
+        try {
+            AccountSummaryResponse response = context.account.summary(new AccountID(accountId));
+            logger.info("Received account summary from Oanda API: " + response);
+            return response.getAccount();
+        } catch (RequestException e) {
+            logger.severe("RequestException occurred while fetching account summary: " + e.getMessage());
             throw e;
         }
     }

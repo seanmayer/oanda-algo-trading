@@ -5,6 +5,7 @@ import com.oanda.v20.ExecuteException;
 import com.oanda.v20.RequestException;
 import com.oanda.v20.instrument.Candlestick;
 import com.oanda.v20.instrument.CandlestickGranularity;
+import com.oanda.v20.instrument.InstrumentOrderBookResponse;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,6 +29,11 @@ public class CandleController {
             @RequestParam(defaultValue = "10") int count)
             throws ExecuteException, RequestException {
         return candleService.getCandlestickData(instrument, granularity, count);
+    }
+
+    @GetMapping("/instruments/{instrument}/orderBook")
+    public InstrumentOrderBookResponse getOrderBook(@PathVariable String instrument) throws ExecuteException, RequestException {
+        return candleService.getOrderBook(instrument);
     }
 }
 

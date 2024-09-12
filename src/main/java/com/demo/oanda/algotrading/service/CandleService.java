@@ -3,10 +3,7 @@ package com.demo.oanda.algotrading.service;
 import com.oanda.v20.Context;
 import com.oanda.v20.ExecuteException;
 import com.oanda.v20.RequestException;
-import com.oanda.v20.instrument.Candlestick;
-import com.oanda.v20.instrument.CandlestickGranularity;
-import com.oanda.v20.instrument.InstrumentCandlesRequest;
-import com.oanda.v20.instrument.InstrumentCandlesResponse;
+import com.oanda.v20.instrument.*;
 import com.oanda.v20.primitives.InstrumentName;
 import org.springframework.stereotype.Service;
 
@@ -36,6 +33,19 @@ public class CandleService {
             return response.getCandles();
         } catch (RequestException e) {
             logger.severe("RequestException occurred while fetching candlestick data: " + e.getMessage());
+            throw e;
+        }
+    }
+
+    // Fetch order book data for a specific instrument
+    public InstrumentOrderBookResponse getOrderBook(String instrument) throws ExecuteException, RequestException {
+        try {
+            InstrumentOrderBookRequest request = new InstrumentOrderBookRequest(new InstrumentName(instrument));
+            InstrumentOrderBookResponse response = context.instrument.orderBook(request);
+            logger.info("Received order book data from Oanda API: " + response);
+            return response;
+        } catch (RequestException e) {
+            logger.severe("RequestException occurred while fetching order book data: " + e.getMessage());
             throw e;
         }
     }

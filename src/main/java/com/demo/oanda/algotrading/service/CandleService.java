@@ -49,5 +49,18 @@ public class CandleService {
             throw e;
         }
     }
+
+    // Fetch position book data for a specific instrument
+    public InstrumentPositionBookResponse getPositionBook(String instrument) throws ExecuteException, RequestException {
+        try {
+            InstrumentPositionBookRequest request = new InstrumentPositionBookRequest(new InstrumentName(instrument));
+            InstrumentPositionBookResponse response = context.instrument.positionBook(request);
+            logger.info("Received position book data from Oanda API: " + response);
+            return response;
+        } catch (RequestException e) {
+            logger.severe("RequestException occurred while fetching position book data: " + e.getMessage());
+            throw e;
+        }
+    }
 }
 

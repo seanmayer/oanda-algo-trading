@@ -7,6 +7,7 @@ import com.oanda.v20.account.AccountID;
 import com.oanda.v20.order.MarketOrderRequest;
 import com.oanda.v20.order.OrderCreateRequest;
 import com.oanda.v20.order.OrderCreateResponse;
+import com.oanda.v20.order.OrderListResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.logging.Logger;
@@ -36,4 +37,20 @@ public class OrderService {
             throw e;
         }
     }
+
+    // Method to get the list of orders for a specific account
+    public OrderListResponse getOrders(String accountId) throws ExecuteException, RequestException {
+        try {
+            AccountID accountID = new AccountID(accountId);
+            OrderListResponse response = context.order.list(accountID);
+            logger.info("Successfully retrieved orders for account " + accountId);
+            return response;
+        } catch (RequestException e) {
+            logger.severe("RequestException occurred while fetching orders for account: " + e.getMessage());
+            throw e;
+        }
+    }
+
+
+
 }

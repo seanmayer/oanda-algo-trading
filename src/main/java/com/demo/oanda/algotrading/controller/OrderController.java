@@ -5,6 +5,7 @@ import com.oanda.v20.ExecuteException;
 import com.oanda.v20.RequestException;
 import com.oanda.v20.order.MarketOrderRequest;
 import com.oanda.v20.order.OrderCreateResponse;
+import com.oanda.v20.order.OrderListPendingResponse;
 import com.oanda.v20.order.OrderListResponse;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,4 +30,11 @@ public class OrderController {
             @PathVariable String accountId) throws ExecuteException, RequestException {
         return orderService.getOrders(accountId);
     }
+
+    @GetMapping("/accounts/{accountId}/pendingOrders")
+    public OrderListPendingResponse getPendingOrders(
+            @PathVariable String accountId) throws ExecuteException, RequestException {
+        return orderService.getPendingOrders(accountId);
+    }
+
 }

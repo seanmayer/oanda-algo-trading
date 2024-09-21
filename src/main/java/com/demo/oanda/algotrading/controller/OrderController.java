@@ -3,10 +3,7 @@ package com.demo.oanda.algotrading.controller;
 import com.demo.oanda.algotrading.service.OrderService;
 import com.oanda.v20.ExecuteException;
 import com.oanda.v20.RequestException;
-import com.oanda.v20.order.MarketOrderRequest;
-import com.oanda.v20.order.OrderCreateResponse;
-import com.oanda.v20.order.OrderListPendingResponse;
-import com.oanda.v20.order.OrderListResponse;
+import com.oanda.v20.order.*;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -35,6 +32,13 @@ public class OrderController {
     public OrderListPendingResponse getPendingOrders(
             @PathVariable String accountId) throws ExecuteException, RequestException {
         return orderService.getPendingOrders(accountId);
+    }
+
+    @GetMapping("/accounts/{accountId}/orders/{orderSpecifier}")
+    public OrderGetResponse getOrder(
+            @PathVariable String accountId,
+            @PathVariable String orderSpecifier) throws ExecuteException, RequestException {
+        return orderService.getOrder(accountId, orderSpecifier);
     }
 
 }

@@ -60,4 +60,18 @@ public class OrderService {
         }
     }
 
+    // Fetch a specific order by its orderSpecifier for a given account
+    public OrderGetResponse getOrder(String accountId, String orderSpecifier) throws ExecuteException, RequestException {
+        try {
+            AccountID accountID = new AccountID(accountId);
+            OrderSpecifier orderID = new OrderSpecifier(orderSpecifier);
+            OrderGetResponse response = context.order.get(accountID, orderID);
+            logger.info("Successfully retrieved order " + orderSpecifier + " for account " + accountId);
+            return response;
+        } catch (RequestException e) {
+            logger.severe("RequestException occurred while fetching order: " + e.getMessage());
+            throw e;
+        }
+    }
+
 }

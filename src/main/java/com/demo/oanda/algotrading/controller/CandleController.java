@@ -7,6 +7,7 @@ import com.oanda.v20.instrument.Candlestick;
 import com.oanda.v20.instrument.CandlestickGranularity;
 import com.oanda.v20.instrument.InstrumentOrderBookResponse;
 import com.oanda.v20.instrument.InstrumentPositionBookResponse;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,6 +24,7 @@ public class CandleController {
         this.candleService = candleService;
     }
 
+    @Operation(summary = "Get Candlestick Data", description = "Get candlestick data for the specified instrument")
     @GetMapping("/instruments/{instrument}/candles")
     public List<Candlestick> getCandlestickData(
             @PathVariable String instrument,
@@ -32,11 +34,13 @@ public class CandleController {
         return candleService.getCandlestickData(instrument, granularity, count);
     }
 
+    @Operation(summary = "Get Order Book", description = "Get order book data for the specified instrument")
     @GetMapping("/instruments/{instrument}/orderBook")
     public InstrumentOrderBookResponse getOrderBook(@PathVariable String instrument) throws ExecuteException, RequestException {
         return candleService.getOrderBook(instrument);
     }
 
+    @Operation(summary = "Get Position Book", description = "Get position book data for the specified instrument")
     @GetMapping("/instruments/{instrument}/positionBook")
     public InstrumentPositionBookResponse getPositionBook(@PathVariable String instrument) throws ExecuteException, RequestException {
         return candleService.getPositionBook(instrument);

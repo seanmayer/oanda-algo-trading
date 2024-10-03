@@ -20,31 +20,30 @@ public class CandleController {
 
     private final CandleService candleService;
 
-    public CandleController(CandleService candleService) {
+    public CandleController(final CandleService candleService) {
         this.candleService = candleService;
     }
 
     @Operation(summary = "Get Candlestick Data", description = "Get candlestick data for the specified instrument")
     @GetMapping("/instruments/{instrument}/candles")
     public List<Candlestick> getCandlestickData(
-            @PathVariable String instrument,
-            @RequestParam(defaultValue = "M1") CandlestickGranularity granularity,
-            @RequestParam(defaultValue = "10") int count)
+            @PathVariable final String instrument,
+            @RequestParam(defaultValue = "M1") final CandlestickGranularity granularity,
+            @RequestParam(defaultValue = "10") final int count)
             throws ExecuteException, RequestException {
         return candleService.getCandlestickData(instrument, granularity, count);
     }
 
     @Operation(summary = "Get Order Book", description = "Get order book data for the specified instrument")
     @GetMapping("/instruments/{instrument}/orderBook")
-    public InstrumentOrderBookResponse getOrderBook(@PathVariable String instrument) throws ExecuteException, RequestException {
+    public InstrumentOrderBookResponse getOrderBook(@PathVariable final String instrument) throws ExecuteException, RequestException {
         return candleService.getOrderBook(instrument);
     }
 
     @Operation(summary = "Get Position Book", description = "Get position book data for the specified instrument")
     @GetMapping("/instruments/{instrument}/positionBook")
-    public InstrumentPositionBookResponse getPositionBook(@PathVariable String instrument) throws ExecuteException, RequestException {
+    public InstrumentPositionBookResponse getPositionBook(@PathVariable final String instrument) throws ExecuteException, RequestException {
         return candleService.getPositionBook(instrument);
     }
 
 }
-

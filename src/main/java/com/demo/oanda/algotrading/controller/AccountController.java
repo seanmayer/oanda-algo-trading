@@ -19,13 +19,13 @@ public class AccountController {
 
     private final AccountService accountService;
 
-    public AccountController(AccountService accountService) {
+    public AccountController(final AccountService accountService) {
         this.accountService = accountService;
     }
 
     @Operation(summary = "Get Account Details", description = "Get details of a specific account")
     @GetMapping("/account/{accountId}")
-    public Account getAccountDetails(@PathVariable String accountId) throws ExecuteException, RequestException {
+    public Account getAccountDetails(@PathVariable final String accountId) throws ExecuteException, RequestException {
         return accountService.getAccountDetails(accountId);
     }
 
@@ -37,13 +37,13 @@ public class AccountController {
 
     @Operation(summary = "Get Account Instruments", description = "List all instruments available for a specific account")
     @GetMapping("/account/{accountId}/instruments")
-    public List<Instrument> getAccountInstruments(@PathVariable String accountId) throws ExecuteException, RequestException {
+    public List<Instrument> getAccountInstruments(@PathVariable final String accountId) throws ExecuteException, RequestException {
         return accountService.getAccountInstruments(accountId);
     }
 
     @Operation(summary = "Get Account Summary", description = "Get a summary of a specific account")
     @GetMapping("/account/{accountId}/summary")
-    public AccountSummary getAccountSummary(@PathVariable String accountId) throws ExecuteException, RequestException {
+    public AccountSummary getAccountSummary(@PathVariable final String accountId) throws ExecuteException, RequestException {
         return accountService.getAccountSummary(accountId);
     }
 }

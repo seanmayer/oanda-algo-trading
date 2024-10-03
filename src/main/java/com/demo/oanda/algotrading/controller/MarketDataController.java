@@ -16,13 +16,13 @@ public class MarketDataController {
 
     private final MarketDataService marketDataService;
 
-    public MarketDataController(MarketDataService marketDataService) {
+    public MarketDataController(final MarketDataService marketDataService) {
         this.marketDataService = marketDataService;
     }
 
     @Operation(summary = "Get Market Data", description = "Get market data for the specified instrument")
     @GetMapping("/marketdata/{instrument}")
-    public List<Candlestick> getMarketData(@PathVariable String instrument) throws ExecuteException, RequestException {
+    public List<Candlestick> getMarketData(@PathVariable final String instrument) throws ExecuteException, RequestException {
         return marketDataService.getMarketData(instrument);
     }
 }

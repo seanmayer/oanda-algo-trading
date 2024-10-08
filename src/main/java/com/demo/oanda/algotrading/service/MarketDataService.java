@@ -19,20 +19,20 @@ public class MarketDataService {
     private static final Logger logger = Logger.getLogger(MarketDataService.class.getName());
     private final Context context;
 
-    public MarketDataService(Context context) {
+    public MarketDataService(final Context context) {
         this.context = context;
     }
 
-    public List<Candlestick> getMarketData(String instrument) throws ExecuteException, RequestException {
-        InstrumentCandlesRequest request = new InstrumentCandlesRequest(new InstrumentName(instrument))
+    public List<Candlestick> getMarketData(final String instrument) throws ExecuteException, RequestException {
+        final InstrumentCandlesRequest request = new InstrumentCandlesRequest(new InstrumentName(instrument))
                 .setGranularity(CandlestickGranularity.M1)  // Adjust the granularity as needed
                 .setCount(10L);  // Adjust the count as needed
 
         try {
-            InstrumentCandlesResponse response = context.instrument.candles(request);
+            final InstrumentCandlesResponse response = context.instrument.candles(request);
             logger.info("Received response from Oanda API: " + response);
             return response.getCandles();
-        } catch (RequestException e) {
+        } catch (final RequestException e) {
             logger.severe("RequestException occurred: " + e.getMessage());
             throw e;
         }

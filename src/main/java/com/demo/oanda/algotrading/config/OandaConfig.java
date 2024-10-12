@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
 public class OandaConfig {
 
     private static final Logger logger = Logger.getLogger(OandaConfig.class.getName());
-    private String apiKey;
-    private String url;
+    private final String apiKey;
+    private final String url;
 
     public OandaConfig() {
         this.apiKey = System.getenv("OANDA_API_KEY");

@@ -5,7 +5,7 @@ FROM openjdk:11-jre-slim
 WORKDIR /app
 
 # Copy the jar file into the container
-COPY target/oanda-trading-api-1.0.0.jar app.jar
+COPY target/algotrading-1.0.0.jar app.jar
 
 # Expose the port that the application runs on
 EXPOSE 8080

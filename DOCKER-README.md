@@ -21,7 +21,7 @@
    After the image is built, run the following command to start a container from the image:
 
    ```bash
-   docker run -p 8080:8080 oanda-trading-api
+   docker run -p 8080:8080 -e OANDA_API_KEY=${OANDA_API_KEY} oanda-trading-api
    ```
 
    This will start the application and map port 8080 of the container to port 8080 on your host machine.

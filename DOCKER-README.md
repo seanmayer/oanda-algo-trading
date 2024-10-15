@@ -21,10 +21,27 @@
    After the image is built, run the following command to start a container from the image:
 
    ```bash
-   docker run -p 8080:8080 -e OANDA_API_KEY=${OANDA_API_KEY} oanda-trading-api
+   docker run -p 8080:8080 -e OANDA_API_KEY=${OANDA_API_KEY} --name oanda-trading-container oanda-trading-api
    ```
 
    This will start the application and map port 8080 of the container to port 8080 on your host machine.
+
+
+3. **Stop the Docker Container**
+
+   To stop the running container, you can use the `docker ps` command to find the container ID and then stop it using the `docker stop` command:
+
+   ```bash
+   docker stop oanda-trading-container
+   ```
+
+4. **Remove the Docker Container**
+
+   If you want to remove the container, you can use the `docker rm` command:
+
+   ```bash
+   docker rm oanda-trading-container
+   ```
 
 ### Accessing the Application
 

@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: oanda-trading-api-service
+spec:
+  type: NodePort
+  selector:
+    app: oanda-trading-api
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+      nodePort: 30000

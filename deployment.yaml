@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: oanda-trading-api-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: oanda-trading-api
+  template:
+    metadata:
+      labels:
+        app: oanda-trading-api
+    spec:
+      containers:
+        - name: oanda-trading-api
+          image: oanda-trading-api
+          ports:
+            - containerPort: 8080
+          env:
+            - name: OANDA_API_KEY
+              value: "${OANDA_API_KEY}"

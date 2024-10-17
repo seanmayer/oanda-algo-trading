@@ -1,5 +1,11 @@
 # Running on MiniKube
 
+### Prerequisites:
+- MiniKube installed on your machine
+- Docker installed on your machine
+- kubectl installed on your machine
+- Java Development Kit (JDK) 11
+
 1. **Start MiniKube**
 
    ```bash

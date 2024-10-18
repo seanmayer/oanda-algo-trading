@@ -2,9 +2,10 @@
 
 ### Prerequisites:
 - MiniKube installed on your machine
+  - Brew: `brew install minikube`
 - Docker installed on your machine
-- kubectl installed on your machine
-- Java Development Kit (JDK) 11
+    - Brew: `brew install docker`
+- kubectl installed on your machine (comes with MiniKube)
 
 1. **Start MiniKube**
 

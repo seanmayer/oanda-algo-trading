@@ -3,6 +3,8 @@
 ### Prerequisites:
 - MiniKube installed on your machine
   - Brew: `brew install minikube`
+- Colima installed on your machine
+  - Brew: `brew install colima`
 - Docker installed on your machine
     - Brew: `brew install docker`
 - kubectl installed on your machine (comes with MiniKube)

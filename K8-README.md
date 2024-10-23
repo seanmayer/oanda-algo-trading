@@ -5,6 +5,9 @@
   - Brew: `brew install minikube`
 - Colima installed on your machine
   - Brew: `brew install colima`
+  - Colima is a new container runtime for macOS that is optimized for Kubernetes development.
+  - It is a replacement for Docker Desktop.
+  - `colima start` to start the container runtime.
 - Docker installed on your machine
     - Brew: `brew install docker`
 - kubectl installed on your machine (comes with MiniKube)

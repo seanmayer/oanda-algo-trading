@@ -11,29 +11,33 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class OpenApiConfig {
 
-    @Value("${openapi.title}")
-    private String title;
+    private final String title;
+    private final String description;
+    private final String version;
+    private final String contactName;
+    private final String contactEmail;
+    private final String contactUrl;
+    private final String externalDocsDescription;
+    private final String externalDocsUrl;
 
-    @Value("${openapi.description}")
-    private String description;
-
-    @Value("${openapi.version}")
-    private String version;
-
-    @Value("${openapi.contact.name}")
-    private String contactName;
-
-    @Value("${openapi.contact.email}")
-    private String contactEmail;
-
-    @Value("${openapi.contact.url}")
-    private String contactUrl;
-
-    @Value("${openapi.externalDocs.description}")
-    private String externalDocsDescription;
-
-    @Value("${openapi.externalDocs.url}")
-    private String externalDocsUrl;
+    public OpenApiConfig(
+            @Value("${openapi.title}") String title,
+            @Value("${openapi.description}") String description,
+            @Value("${openapi.version}") String version,
+            @Value("${openapi.contact.name}") String contactName,
+            @Value("${openapi.contact.email}") String contactEmail,
+            @Value("${openapi.contact.url}") String contactUrl,
+            @Value("${openapi.externalDocs.description}") String externalDocsDescription,
+            @Value("${openapi.externalDocs.url}") String externalDocsUrl) {
+        this.title = title;
+        this.description = description;
+        this.version = version;
+        this.contactName = contactName;
+        this.contactEmail = contactEmail;
+        this.contactUrl = contactUrl;
+        this.externalDocsDescription = externalDocsDescription;
+        this.externalDocsUrl = externalDocsUrl;
+    }
 
     @Bean
     public OpenAPI oandaTradingOpenAPI() {

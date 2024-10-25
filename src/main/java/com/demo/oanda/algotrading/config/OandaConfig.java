@@ -12,11 +12,13 @@ public class OandaConfig {
 
     private static final Logger logger = Logger.getLogger(OandaConfig.class.getName());
 
-    @Value("${oanda.api.key}")
-    private String apiKey;
+    private final String apiKey;
+    private final String url;
 
-    @Value("${oanda.api.url}")
-    private String url;
+    public OandaConfig(@Value("${oanda.api.key}") String apiKey, @Value("${oanda.api.url}") String url) {
+        this.apiKey = apiKey;
+        this.url = url;
+    }
 
     @Bean
     public Context context() {

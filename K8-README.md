@@ -15,7 +15,7 @@
 1. **Start MiniKube**
 
    ```bash
-   minikube start
+   minikube-start
    ```
    
 2. **Build the Docker Image**

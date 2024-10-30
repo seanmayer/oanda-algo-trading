@@ -66,10 +66,10 @@ Here’s the README with all `bash` commands properly formatted.
     - Set **nano** as your default editor (temporarily for this session):
 
       ```bash
-      export KUBE_EDITOR="code"
+      export KUBE_EDITOR="nano"
       ```
 
-    - Open the registry service in `code`:
+    - Open the registry service in `nano`:
 
       ```bash
       kubectl edit svc registry -n kube-system

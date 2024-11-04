@@ -8,6 +8,6 @@ spec:
     app: oanda-trading-api
   ports:
     - protocol: TCP
-      port: 8080
-      targetPort: 8080
-      nodePort: 30000
+      port: 80  # Standard HTTP port for external access
+      targetPort: 8080  # Port exposed by the container
+      nodePort: 30000  # Custom NodePort for external access

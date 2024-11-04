@@ -1,147 +1,103 @@
-Here’s the README with all `bash` commands properly formatted.
-
----
-
-# Running on MiniKube
+# Running on Minikube with Docker Hub
 
 ### Prerequisites:
-- **MiniKube** installed on your machine
+- **Minikube** installed on your machine
     - Install with Brew:
       ```bash
       brew install minikube
       ```
-- **Colima** installed on your machine
+- **Colima** installed on your machine (as a replacement for Docker Desktop)
     - Install with Brew:
       ```bash
       brew install colima
       ```
-    - Colima is an optimized container runtime for macOS, ideal for Kubernetes development. It acts as a replacement for Docker Desktop.
-    - Use `colima start` to initiate the container runtime.
+    - Start Colima to manage Docker:
+      ```bash
+      colima start
+      ```
 - **Docker** installed on your machine
     - Install with Brew:
       ```bash
       brew install docker
       ```
-- **kubectl** installed on your machine (comes with MiniKube)
+- **kubectl** installed on your machine (comes with Minikube)
 
 ---
 
 ### Instructions
 
 1. **Start Colima**
-
+   Make sure Colima is running to use Docker as the runtime:
    ```bash
    colima start
    ```
 
-2. **Start MiniKube with Docker as the Driver**
+2. **Set Docker Context to Colima**
+   Ensure Docker is using Colima as the active context:
+   ```bash
+   docker context use colima
+   ```
 
+3. **Start Minikube with Docker as the Driver**
+   Start Minikube using Docker:
    ```bash
    minikube start --driver=docker
    ```
+   > **Note**: The initial pull of the Minikube base image may take some time. Be patient if it appears to hang at this step.
 
-3. **Build the Docker Image**
-
-   Navigate to the root directory of your project and run the following commands to build and tag the Docker image:
-
-    ```bash
-    eval $(minikube docker-env)
-    docker build -t oanda-trading-api .
-    ```
-
-4. **Enable and Configure Registry Addon in MiniKube**
-
-   Enable the Minikube registry addon to create an internal Docker registry:
-
-    ```bash
-    minikube addons enable registry
-    ```
-
-   **Note**: By default, the registry is accessible within the Minikube cluster as a `ClusterIP` service. To make it accessible from outside the cluster, you can convert it to a `NodePort` service.
-
-5. **Expose the Registry as a NodePort**
-
-   Changing the registry service to `NodePort` makes it accessible to your local machine on an external port, allowing Docker images to be pushed directly to Minikube’s registry.
-
-    - Set **nano** as your default editor (temporarily for this session):
-
-      ```bash
-      export KUBE_EDITOR="nano"
-      ```
-
-    - Open the registry service in `nano`:
-
-      ```bash
-      kubectl edit svc registry -n kube-system
-      ```
-
-    - In `nano`, change the service type from `ClusterIP` to `NodePort`:
-
-      ```yaml
-      spec:
-        type: NodePort
-        ports:
-          - port: 80
-            targetPort: 80
-      ```
-
-    - Save your changes (`CTRL + O`, then `Enter`) and exit (`CTRL + X`).
-
-6. **Get the Minikube Registry IP and NodePort**
-
-   Use the following command to retrieve the Minikube IP address and the assigned `NodePort` for the registry:
-
-    ```bash
-    kubectl get svc registry -n kube-system
-    ```
-
-    - **Good Practice**: Note that exposing internal services via `NodePort` is common in development but can pose security risks if used in production without proper controls. This should only be done in isolated development environments.
-
-7. **Tag and Push the Docker Image to the Minikube Registry**
-
-   Tag and push the Docker image using the Minikube IP and `NodePort` retrieved from the previous step. For example:
-
-    ```bash
-    docker tag oanda-trading-api:latest <minikube_ip>:<node_port>/oanda-trading-api:latest
-    docker push <minikube_ip>:<node_port>/oanda-trading-api:latest
-    ```
-
-8. **Deploy the Application**
-
-   Apply the Kubernetes manifest files to create the deployment and service:
-
-    ```bash
-    kubectl apply -f deployment.yaml
-    kubectl apply -f service.yaml
-    ```
-
-9. **Access the Application**
-
-   Retrieve the Minikube IP address and the NodePort for your service to access the application:
-
+4. **Build and Tag Your Docker Image**
+   Build your Docker image and tag it for Docker Hub:
    ```bash
-   minikube ip
-   kubectl get svc
+   docker build -t oanda-trading-api .
+   docker tag oanda-trading-api:latest <your-dockerhub-username>/oanda-trading-api:latest
    ```
 
-   Open a web browser and navigate to `http://<minikube_ip>:<NodePort>` (e.g., `http://192.168.49.2:30000`).
+5. **Push the Image to Docker Hub**
+   Log in to Docker Hub and push your image:
+   ```bash
+   docker login
+   docker push <your-dockerhub-username>/oanda-trading-api:latest
+   ```
 
-10. **Stop MiniKube**
+6. **Update Kubernetes Manifest**
+   Make sure your `deployment.yaml` is configured to pull the image from Docker Hub:
+   ```yaml
+   spec:
+     containers:
+     - name: oanda-trading-api
+       image: <your-dockerhub-username>/oanda-trading-api:latest
+       ports:
+       - containerPort: 8080
+   ```
 
-    When you're done, stop the Minikube cluster with:
+7. **Deploy to Minikube**
+   Apply your Kubernetes configuration:
+   ```bash
+   kubectl apply -f deployment.yaml
+   kubectl apply -f service.yaml
+   ```
 
-    ```bash
-    minikube stop
-    ```
+8. **Access the Application**
+    - Get the Minikube IP and service NodePort:
+      ```bash
+      minikube ip
+      kubectl get svc
+      ```
+    - Access the application at `http://<minikube-ip>:<NodePort>`.
 
 ---
 
-### Best Practices and Considerations
+### Notes and Troubleshooting
+- **Waiting for Image Pull**: If Minikube seems to hang while pulling the base image, wait patiently. The initial setup can take time, especially on a slow network.
+- **Docker Credential Issues**: If you encounter errors related to `docker-credential-osxkeychain`, make sure to remove or update the `"credsStore"` entry in `~/.docker/config.json`.
+- **Colima Resource Configuration**: If you run into performance issues, allocate more resources to Colima:
+  ```bash
+  colima stop
+  colima start --cpu 4 --memory 4
+  ```
+- **Manual Base Image Pull**: If Minikube's image pull fails, you can manually pull the image:
+  ```bash
+  docker pull gcr.io/k8s-minikube/kicbase:v0.0.45
+  ```
 
-- **Security**: Exposing internal services like the Docker registry via `NodePort` is suitable for local development but is not recommended in production environments without additional security. Always secure the registry or limit access if you move this setup beyond development.
-
-- **Persistence**: Be aware that Minikube environments are generally ephemeral. If you restart Minikube, you may need to reconfigure the registry `NodePort`.
-
-- **Performance**: When running Kubernetes locally with Colima and Minikube, resource allocation (CPU, memory) can impact performance. Adjust these based on your system capabilities.
-
-This setup allows you to efficiently build, push, and deploy Docker images to a local Kubernetes cluster, keeping the registry accessible without needing complex network configurations.
+This setup should simplify your workflow and ensure everything runs smoothly using Docker Hub for image management. Let me know if there are any more updates or issues you’d like to address!

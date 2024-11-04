@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: oanda-trading-api-deployment
 spec:
-  replicas: 1
+  replicas: 2  # Increased replicas for high availability
   selector:
     matchLabels:
       app: oanda-trading-api
@@ -14,9 +14,19 @@ spec:
     spec:
       containers:
         - name: oanda-trading-api
-          image: oanda-trading-api
+          image: seanmayerz/oanda-trading-api:latest  # Specify your Docker Hub image
           ports:
             - containerPort: 8080
           env:
             - name: OANDA_API_KEY
-              value: "${OANDA_API_KEY}"
+              valueFrom:
+                secretKeyRef:
+                  name: oanda-api-secrets
+                  key: OANDA_API_KEY
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+            requests:
+              memory: "256Mi"
+              cpu: "250m"

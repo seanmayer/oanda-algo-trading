@@ -76,8 +76,11 @@
    kubectl apply -f deployment.yaml
    kubectl apply -f service.yaml
    ```
-
-8. **Access the Application**
+8. **Secrets**
+   ```bash
+   kubectl create secret generic oanda-api-secrets --from-literal=OANDA_API_KEY="$OANDA_API_KEY"
+    ```
+9. **Access the Application**
     - Get the Minikube IP and service NodePort:
       ```bash
       minikube ip
